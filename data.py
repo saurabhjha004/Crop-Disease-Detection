@@ -20,6 +20,39 @@ def split_dataset():
             continue
 
         categories = os.listdir(subfolder_path)
+        
         #Abhishek's Part
+        categories = os.listdir(subfolder_path)
+        for category in categories:
+            category_path = os.path.join(subfolder_path, category)
+
+            if not os.path.isdir(category_path):
+                continue
+
+            os.makedirs(os.path.join(train_dir, category), exist_ok=True)
+            os.makedirs(os.path.join(val_dir, category), exist_ok=True)
+            os.makedirs(os.path.join(test_dir, category), exist_ok=True)
+
+            image_files = [
+                os.path.join(category_path, f)
+                for f in os.listdir(category_path)
+                if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+            ]
+
+            if len(image_files) == 0:
+                print(f"No images found in category '{category}' under '{subfolder}'")
+                continue
+
+            train_files, temp_files = train_test_split(image_files, test_size=0.2, random_state=42)
+            val_files, test_files = train_test_split(temp_files, test_size=0.5, random_state=42)
+
+            for file in train_files:
+                shutil.copy(file, os.path.join(train_dir, category))
+            for file in val_files:
+                shutil.copy(file, os.path.join(val_dir, category))
+            for file in test_files:
+                shutil.copy(file, os.path.join(test_dir, category))
+
+            print(f"Processed category '{category}' under '{subfolder}'.")
         
     print("Dataset split complete!")
