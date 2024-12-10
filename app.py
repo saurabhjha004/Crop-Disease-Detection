@@ -36,8 +36,6 @@ class CNNModel(nn.Module):
 
 
 # Aman's Part
-<<<<<<< patch-1
-=======
 st.title("Plant Disease Detection")
 st.write("Upload an image of a plant leaf, and the model will predict its disease.")
 
@@ -57,4 +55,3 @@ if uploaded_file:
         st.write(f"Predicted Disease Class: {predicted_class}")
     except Exception as e:
         st.error(f"Error: {e}")
->>>>>>> main
