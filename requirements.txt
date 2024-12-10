@@ -1,4 +1,4 @@
 torch==2.2.0
-torchvision==0.20.1
+torchvision==0.15.2  
 streamlit
-other_dependencies
+other_dependencies  
