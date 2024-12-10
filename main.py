@@ -53,6 +53,10 @@ class CNNModel(nn.Module):
             nn.Dropout(0.5),
             nn.Linear(256, num_classes)
         )
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
 
 num_classes = len(train_dataset.classes)  
 model = CNNModel(num_classes).to(device)
