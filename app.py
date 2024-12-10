@@ -33,7 +33,17 @@ class CNNModel(nn.Module):
         return x
 
 # Prakhar's Part
+num_classes = 39  # Update to match your dataset
+model = CNNModel(num_classes=num_classes)
+model.load_state_dict(torch.load("plant_disease_model.pth", map_location=torch.device("cpu")))
+model.eval()
 
+
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+])
 
 # Aman's Part
 st.title("Plant Disease Detection")
