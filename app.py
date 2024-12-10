@@ -38,6 +38,19 @@ model = CNNModel(num_classes=num_classes)
 model.load_state_dict(torch.load("plant_disease_model.pth", map_location=torch.device("cpu")))
 model.eval()
 
+class_names = [
+    "Apple__Apple_scab", "Apple__Black_rot", "Apple__Cedar_apple_rust", "Apple__healthy",
+    "Background_without_leaves", "Blueberry__healthy", "Cherry__healthy", "Cherry__Powdery_mildew",
+    "Corn__Cercospora_leaf_spot Gray_leaf_spot", "Corn__Common_rust", "Corn__healthy",
+    "Corn__Northern_Leaf_Blight", "Grape__Black_rot", "Grape__Esca_(Black_Measles)",
+    "Grape__healthy", "Grape__Leaf_blight_(Isariopsis_Leaf_Spot)", "Orange__Haunglongbing_(Citrus_greening)",
+    "Peach__Bacterial_spot", "Peach__healthy", "Pepper,_bell__Bacterial_spot", "Pepper,_bell__healthy",
+    "Potato__Early_blight", "Potato__healthy", "Potato__Late_blight", "Raspberry__healthy",
+    "Soybean__healthy", "Squash__Powdery_mildew", "Strawberry__healthy", "Strawberry__Leaf_scorch",
+    "Tomato__Bacterial_spot", "Tomato__Early_blight", "Tomato__healthy", "Tomato__Late_blight",
+    "Tomato__Leaf_Mold", "Tomato__Septoria_leaf_spot", "Tomato__Spider_mites Two-spotted_spider_mite",
+    "Tomato__Target_Spot", "Tomato__Tomato_mosaic_virus", "Tomato__Tomato_Yellow_Leaf_Curl_Virus"
+]
 
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -60,8 +73,13 @@ if uploaded_file:
 
         with torch.no_grad():
             prediction = model(input_tensor)
-            predicted_class = torch.argmax(prediction, dim=1).item()
+            predicted_index = torch.argmax(prediction, dim=1).item()
+            predicted_class = class_names[predicted_index]
 
-        st.write(f"Predicted Disease Class: {predicted_class}")
+        # checks if the leaf is healthy or diseased
+        if "healthy" in predicted_class:
+            st.success("The leaf is **Healthy**.")
+        else:
+            st.error(f"The leaf is **Diseased**: {predicted_class.replace('__', ' ')}")
     except Exception as e:
         st.error(f"Error: {e}")
