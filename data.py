@@ -18,8 +18,6 @@ def split_dataset():
         if not os.path.isdir(subfolder_path):
             print(f"Skipping missing subfolder: {subfolder}")
             continue
-
-        categories = os.listdir(subfolder_path)
         
         #Abhishek's Part
         categories = os.listdir(subfolder_path)
