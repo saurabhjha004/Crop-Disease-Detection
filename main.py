@@ -104,6 +104,17 @@ plt.legend()
 plt.show()
 
 # Isha's Part
+model.eval()
+correct, total = 0, 0
+with torch.no_grad():
+    for images, labels in test_loader:
+        images, labels = images.to(device), labels.to(device)
+        outputs = model(images)
+        _, predicted = torch.max(outputs, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
 
+accuracy = 100 * correct / total
+print(f"Test Accuracy: {accuracy:.2f}%")
 
 torch.save(model.state_dict(), "plant_disease_model.pth")
