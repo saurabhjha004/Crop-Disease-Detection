@@ -6,8 +6,8 @@ import torch.nn as nn
 
 # Anushka's Part
 class CNNModel(nn.Module):
-    def _init_(self, num_classes):
-        super(CNNModel, self)._init_()
+    def __init__(self, num_classes):
+        super(CNNModel, self).__init__()
         self.features = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
